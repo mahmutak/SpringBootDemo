@@ -14,6 +14,11 @@
     <name>spring-boot-demo</name>
     <description>Demo project for Spring Boot</description>
 
+    <properties>
+    <!--
+        <java.version>11</java.version>
+        -->
+    </properties>
 
     <dependencies>
         <dependency>
@@ -48,7 +53,30 @@
 
     <build>
         <plugins>
-            <plugin>
+         <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>4.0.2</version>
+                <executions>
+		            <execution>
+			            <phase>compile</phase>
+			            <goals>
+				            <goal>revision</goal>
+			            </goals>
+		            </execution>
+	            </executions>
+                <configuration>
+                    <dateFormat>yyyyMMdd-HHmmss</dateFormat>
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                    <generateGitPropertiesFile>false</generateGitPropertiesFile>
+                    <includeOnlyProperties>
+                        <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
+                    </includeOnlyProperties>
+                    <commitIdGenerationMode>full</commitIdGenerationMode>
+                </configuration>
+            </plugin>
+            <!-- <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
                 <version>6.0.2</version>
@@ -61,11 +89,8 @@
                 </executions>
                 <configuration>
                     <failBuildOnCVSS>7</failBuildOnCVSS>
-                    <!-- Generate all report formats -->
                     <format>ALL</format>
-                    <!-- Don't use Nexus Analyzer -->
                     <centralAnalyzerEnabled>false</centralAnalyzerEnabled>
-                    <!-- Am I the latest version? -->
                     <versionCheckEnabled>true</versionCheckEnabled>
                 </configuration>
             </plugin>
@@ -87,7 +112,15 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin> 
+            
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.7.0.1746</version>
             </plugin>
+            -->
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -98,20 +131,15 @@
                 <version>2.22.1</version>
             </plugin>
             <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.7.0.1746</version>
-            </plugin>
-            <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
-                <version>2.5.2</version>
+                <version>2.6.0</version>
                 <configuration>
                     <to>
-                        <image>docker.io/maartensmeets/${project.artifactId}</image>
+                        <image>mahmut25/edutest-api</image>
                         <tags>
-                            <tag>${project.version}</tag>
-                            <tag>latest</tag>
+                           <tag>${git.commit.id.full}</tag>
+                           <tag>latest</tag>
                         </tags>
                         <auth>
                             <username>${env.DOCKER_USERNAME}</username>
@@ -127,6 +155,15 @@
                         <image>openjdk:11-jdk-slim</image>
                     </from>
                 </configuration>
+                	<executions>
+		<execution>
+			<id>build-and-push-docker-image</id>
+			<phase>package</phase>
+			<goals>
+				<goal>build</goal>
+			</goals>
+		</execution>
+	</executions>
             </plugin>
         </plugins>
     </build>
