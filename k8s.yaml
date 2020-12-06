@@ -18,10 +18,10 @@ spec:
         app: spring-boot-demo
     spec:
       containers:
-      - image: docker.io/maartensmeets/spring-boot-demo
+      - image: docker.io/mahmut25/edutest-api:$COMMIT_ID
         name: spring-boot-demo
-        resources: {}
-status: {}
+        ports:
+        - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
