@@ -10,11 +10,11 @@ pipeline {
         }
       } 
     }
-    
+
   stage('Deploy to K8s') {
       steps {
         script {
-          kubernetesDeploy(configs: "k8s.yaml", kubeconfigId: "kubeconfig-credentials")
+          kubernetesDeploy(configs: "k8s.yaml", kubeconfigId: "kubeconfig-credential2")
         }
       } 
     }
