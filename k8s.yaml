@@ -1,7 +1,7 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: spring-boot-demo
   name: spring-boot-demo
@@ -10,15 +10,14 @@ spec:
   selector:
     matchLabels:
       app: spring-boot-demo
-  strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: spring-boot-demo
     spec:
       containers:
-      - image: docker.io/mahmut25/edutest-api:$COMMIT_ID
+      - image: docker.io/mahmut25/edutest-api:latest
+        imagePullPolicy: Always
         name: spring-boot-demo
         ports:
         - containerPort: 8080
@@ -26,7 +25,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: null
   labels:
     app: spring-boot-demo
   name: spring-boot-demo
@@ -39,8 +37,6 @@ spec:
   selector:
     app: spring-boot-demo
   type: LoadBalancer
-status:
-  loadBalancer: {}
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
