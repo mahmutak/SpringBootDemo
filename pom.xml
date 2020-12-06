@@ -155,15 +155,6 @@
                         <image>openjdk:11-jdk-slim</image>
                     </from>
                 </configuration>
-                	<executions>
-		<execution>
-			<id>build-and-push-docker-image</id>
-			<phase>package</phase>
-			<goals>
-				<goal>build</goal>
-			</goals>
-		</execution>
-	</executions>
             </plugin>
         </plugins>
     </build>
