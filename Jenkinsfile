@@ -20,3 +20,8 @@ pipeline {
     }
   }
 }
+
+/*mkdir -p /home/jenkins/k8s/certs
+cp ~/.minikube/ca.crt /home/jenkins/k8s/certs
+cp /root/.minikube/profiles/minikube/client.* /home/jenkins/k8s/certs/
+chown -R jenkins:jenkins /home/jenkins/k8s/certs*/
